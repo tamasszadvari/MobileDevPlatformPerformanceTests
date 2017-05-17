@@ -5,7 +5,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>PerfTest2_ClassicXamarin.Ios</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.your-company.PerfTest2_ClassicXamarin.Ios</string>
+	<string>com.tamasszadvari.PerfTest2_ClassicXamarin.Ios</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
@@ -29,12 +29,14 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>MinimumOSVersion</key>
-	<string>7.1</string>
+	<string>10.1</string>
 	<key>CFBundleIconFiles</key>
 	<array>
 		<string>Default-568h@2x.png</string>
 	</array>
 	<key>UIMainStoryboardFile~ipad</key>
 	<string>Main</string>
+	<key>CFBundleName</key>
+	<string>PerfTest2_ClassicXamarin.Ios</string>
 </dict>
 </plist>

@@ -10,7 +10,7 @@
 #import <sqlite3.h>
 #import "SQLiteTableViewController.h"
 #import "sqliteUtilities.h"
-#import "FileUtilities.h"
+#import "fileUtilities.h"
 
 @interface MainViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource>
 

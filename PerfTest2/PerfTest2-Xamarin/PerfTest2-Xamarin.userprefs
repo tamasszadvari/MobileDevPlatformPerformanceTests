@@ -1,0 +1,19 @@
+﻿<Properties StartupConfiguration="{61FD5F83-37A5-4B3C-BDC2-A84339344A27}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="PerfTest2-XamarinForms.Shared/Forms/FileList.xaml.cs">
+    <Files>
+      <File FileName="PerfTest2-XamarinForms.Shared/Forms/FileList.xaml.cs" Line="1" Column="1" />
+      <File FileName="PerfTest2-XamarinForms.Shared/Forms/MainPage.xaml.cs" Line="1" Column="1" />
+      <File FileName="PerfTest2-XamarinForms.Shared/Forms/SqLiteList.xaml.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.PerfTest2-XamarinForms.Ios PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Ad-Hoc|iPhone" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.PerfTest2-XamarinForms.Android PreferredExecutionTarget="Android.00f5b189d9d1a6cd" />
+  <MonoDevelop.Ide.ItemProperties.PerfTest2-ClassicXamarin.Ios PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.PerfTest2-ClassicXamarin.Android PreferredExecutionTarget="Android.Nexus_10-7.0_x86" />
+</Properties>

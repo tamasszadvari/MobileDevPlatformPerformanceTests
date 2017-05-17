@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 kevin Ford. All rights reserved.
 //
 
-#import "sqliteUtilities.h"
+#import "SQLiteUtilities.h"
 
 @interface sqliteUtilities () {
     NSString* dbPath;
