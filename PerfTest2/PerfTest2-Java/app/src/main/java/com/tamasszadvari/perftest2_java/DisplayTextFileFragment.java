@@ -1,7 +1,6 @@
-package com.vandammeford.kevinf.perftest2_java;
+package com.tamasszadvari.perftest2_java;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -9,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.TextView;
 
 public class DisplayTextFileFragment extends Fragment {
 

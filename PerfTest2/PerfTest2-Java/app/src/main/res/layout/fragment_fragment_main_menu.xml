@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.vandammeford.kevinf.perftest2_java.MainMenuFragment">
+    tools:context=".MainMenuFragment">
     <ListView
         android:layout_width="match_parent"
         android:id="@+id/lstMainMenu"

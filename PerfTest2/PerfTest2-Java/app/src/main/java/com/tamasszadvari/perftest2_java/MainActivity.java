@@ -1,4 +1,4 @@
-package com.vandammeford.kevinf.perftest2_java;
+package com.tamasszadvari.perftest2_java;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -11,16 +11,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-
 public class MainActivity extends Activity implements AdapterView.OnItemClickListener, SqLiteTableFragment.OnFragmentInteractionListener, DisplayTextFileFragment.OnFragmentInteractionListener {
-    Fragment currentFragment;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        currentFragment = new MainMenuFragment();
+        Fragment currentFragment = new MainMenuFragment();
         FragmentTransaction trans = getFragmentManager().beginTransaction();
         trans.add(R.id.main_area, currentFragment);
         trans.addToBackStack(null);
@@ -50,6 +47,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
     private void cleanUp() {
         SqLiteUtilities sqlUtilities = new SqLiteUtilities(this);
         FileUtilities fUtilities = new FileUtilities(this);
+        AlertDialog.Builder alert  = new AlertDialog.Builder(this);
 
         try {
             sqlUtilities.openConnection();
@@ -57,57 +55,41 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
             sqlUtilities.closeConnection();
 
             fUtilities.deleteFile();
-
             fUtilities.createFile();
 
+            alert.setMessage("Completed test setup");
+            alert.setTitle("Cleanup and Prepare for Tests Successful");
         } catch (Exception ex) {
-            AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
-            dlgAlert.setMessage("An error has occurred: " + ex.getMessage());
-            dlgAlert.setTitle("Error");
-            dlgAlert.setPositiveButton("OK", null);
-            dlgAlert.setCancelable(true);
-            dlgAlert.create().show();
-            return;
+            alert.setMessage("An error has occurred: " + ex.getMessage());
+            alert.setTitle("Error");
+        } finally {
+            alert.setPositiveButton("OK", null);
+            alert.setCancelable(true);
+            alert.create().show();
         }
-
-        AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
-        dlgAlert.setMessage("Completed test setup");
-        dlgAlert.setTitle("Cleanup and Prepare for Tests Successful");
-        dlgAlert.setPositiveButton("OK", null);
-        dlgAlert.setCancelable(true);
-        dlgAlert.create().show();
-        return;
     }
 
     private void addRecords() {
-        SqLiteUtilities utilities;
-        int maxValue = 999;
-
-        utilities = new SqLiteUtilities(this);
+        SqLiteUtilities utilities = new SqLiteUtilities(this);
+        AlertDialog.Builder alert  = new AlertDialog.Builder(this);
 
         try {
             utilities.openConnection();
 
-            for (int i = 0; i <= maxValue; i++) {
+            for (int i = 0; i <= 999; i++) {
                 utilities.addRecord("test", "person", i, "12345678901234567890123456789012345678901234567890");
             }
-        } catch (Exception ex) {
-            AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
-            dlgAlert.setMessage("An error has occurred adding records: " + ex.getMessage());
-            dlgAlert.setTitle("Error");
-            dlgAlert.setPositiveButton("OK", null);
-            dlgAlert.setCancelable(true);
-            dlgAlert.create().show();
-            return;
-        }
 
-        AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
-        dlgAlert.setMessage("All records written to database");
-        dlgAlert.setTitle("Success");
-        dlgAlert.setPositiveButton("OK", null);
-        dlgAlert.setCancelable(true);
-        dlgAlert.create().show();
-        return;
+            alert.setMessage("All records written to database");
+            alert.setTitle("Success");
+        } catch (Exception ex) {
+            alert.setMessage("An error has occurred adding records: " + ex.getMessage());
+            alert.setTitle("Error");
+        } finally {
+            alert.setPositiveButton("OK", null);
+            alert.setCancelable(true);
+            alert.create().show();
+        }
     }
 
     private void showAllRecords() {
@@ -135,35 +117,26 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
     }
 
     private  void saveLargeFile() {
-        FileUtilities utilities;
-        int maxValue = 999;
-
-        utilities = new FileUtilities(this);
+        FileUtilities utilities = new FileUtilities(this);
+        AlertDialog.Builder alert  = new AlertDialog.Builder(this);
 
         try {
-            utilities.openFile();
-
-            for (int i = 0; i <= maxValue; i++) {
+           for (int i = 0; i <= 999; i++) {
                 utilities.writeLineToFile("Writing line to file at index: " + i + System.getProperty ("line.separator"));
             }
-            utilities.closeFile();
-        } catch (Exception ex) {
-            AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
-            dlgAlert.setMessage("An error has occurred adding lines to file: " + ex.getMessage());
-            dlgAlert.setTitle("Error");
-            dlgAlert.setPositiveButton("OK", null);
-            dlgAlert.setCancelable(true);
-            dlgAlert.create().show();
-            return;
-        }
 
-        AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
-        dlgAlert.setMessage("All lines written to file");
-        dlgAlert.setTitle("Success");
-        dlgAlert.setPositiveButton("OK", null);
-        dlgAlert.setCancelable(true);
-        dlgAlert.create().show();
-        return;
+            utilities.closeFile();
+
+            alert.setMessage("All lines written to file");
+            alert.setTitle("Success");
+        } catch (Exception ex) {
+            alert.setMessage("An error has occurred adding lines to file: " + ex.getMessage());
+            alert.setTitle("Error");
+        } finally {
+            alert.setPositiveButton("OK", null);
+            alert.setCancelable(true);
+            alert.create().show();
+        }
     }
 
     private void loadAndDisplayFile() {

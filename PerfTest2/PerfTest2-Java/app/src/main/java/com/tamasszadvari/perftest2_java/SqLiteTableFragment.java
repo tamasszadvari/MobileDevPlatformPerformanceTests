@@ -1,4 +1,4 @@
-package com.vandammeford.kevinf.perftest2_java;
+package com.tamasszadvari.perftest2_java;
 
 import android.app.Activity;
 import android.net.Uri;
@@ -7,7 +7,6 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 public class SqLiteTableFragment extends Fragment {
@@ -36,8 +35,7 @@ public class SqLiteTableFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_sq_lite_table, container, false);
     }
@@ -54,8 +52,7 @@ public class SqLiteTableFragment extends Fragment {
         try {
             mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
+            throw new ClassCastException(activity.toString() + " must implement OnFragmentInteractionListener");
         }
     }
 

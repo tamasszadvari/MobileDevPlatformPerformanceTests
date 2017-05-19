@@ -1,6 +1,7 @@
-package com.vandammeford.kevinf.perftest2_java;
+package com.tamasszadvari.perftest2_java;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,36 +10,41 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class FileTableAdapter extends BaseAdapter {
+public class SqLiteTableAdapter extends BaseAdapter {
     private Context context;
-    private ArrayList<String> lines;
+    private ArrayList<String> records;
+    private SqLiteDisplayType displayType;
 
-    public FileTableAdapter(Context context)
+    public SqLiteTableAdapter(Context context, SqLiteDisplayType displayType)
     {
         this.context = context;
-        loadLines();
+        this.displayType = displayType;
+        loadRecords();
     }
 
-    private void loadLines() {
-        FileUtilities utilities;
-
-        utilities = new FileUtilities(this.context);
+    private void loadRecords() {
+        SqLiteUtilities utilities  = new SqLiteUtilities(this.context);
         try {
-            lines = utilities.readFileContents();
-        } catch (Exception ex) {
+            utilities.openConnection();
+            records = (displayType == SqLiteDisplayType.ShowAll)
+                    ? utilities.getAllRecords()
+                    : utilities.getRecordsWith1();
 
+            utilities.closeConnection();
+        } catch (Exception ex) {
+            Log.e("PerfTest2_Java", "exception", ex);
         }
     }
 
     @Override
     public int getCount() {
-        return lines.size();
+        return records.size();
     }
 
     @Override
     public Object getItem(int item) {
         // TODO Auto-generated method stub
-        return lines.get(item);
+        return records.get(item);
     }
 
     @Override
@@ -49,7 +55,6 @@ public class FileTableAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup viewGroup) {
-
         if(convertView == null)
         {
             LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -57,7 +62,7 @@ public class FileTableAdapter extends BaseAdapter {
         }
 
         TextView txtItem = (TextView)convertView.findViewById(android.R.id.text1);
-        txtItem.setText(lines.get(position));
+        txtItem.setText(records.get(position));
 
         return convertView;
     }

@@ -1,4 +1,4 @@
-package com.vandammeford.kevinf.perftest2_java;
+package com.tamasszadvari.perftest2_java;
 
 import android.content.Context;
 import android.os.Environment;
@@ -12,22 +12,25 @@ import java.util.ArrayList;
 
 /**
  * Created by KevinF on 1/16/2015.
+ * Modified by Tamás Szádvári on 19/5/2017
  */
 public class FileUtilities {
+    private BufferedWriter fileHandle;
+    private Context context;
+    private File textFile;
 
-    private String filePath;
-    BufferedWriter fileHandle;
-    Context context;
-    File textFile;
+    private BufferedWriter getFileHandle () throws Exception {
+        if (fileHandle == null) {
+            fileHandle = new BufferedWriter(new FileWriter(textFile));
+        }
+
+        return fileHandle;
+    }
 
     public FileUtilities(Context context) {
         this.context = context;
         String filePath = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) + File.separator + "testFile.txt";
         textFile = new File(filePath);
-    }
-
-    public void openFile() throws Exception {
-        fileHandle = new BufferedWriter(new FileWriter(textFile));
     }
 
     public void closeFile() throws Exception {
@@ -51,25 +54,23 @@ public class FileUtilities {
 
     public void writeLineToFile(String line) throws Exception {
         if (!textFile.exists()) {
-            this.createFile();
-        }
-        if (fileHandle == null) {
-            this.openFile();
+            textFile.createNewFile();
         }
 
-        fileHandle.write(line);
+        getFileHandle().write(line);
     }
 
     public ArrayList<String> readFileContents() throws Exception {
-
         BufferedReader reader = new BufferedReader(new FileReader(textFile));
+        ArrayList<String> returnValue = new ArrayList<>();
         String line;
-        ArrayList<String> returnValue = new ArrayList<String>();
 
         while((line = reader.readLine()) != null){
             returnValue.add(line);
         }
+
         reader.close();
+
         return returnValue;
     }
 }
