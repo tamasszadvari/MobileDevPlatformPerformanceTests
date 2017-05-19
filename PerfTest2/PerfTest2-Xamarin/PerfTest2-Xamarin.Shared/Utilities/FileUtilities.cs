@@ -13,7 +13,7 @@ namespace PerfTest2Xamarin.Utilities
 
 		public FileUtilities (string filePath)
 		{
-			filePath = Path.Combine (filePath, "testFile.txt");
+			this.filePath = Path.Combine (filePath, "testFile.txt");
 		}
 
 		public void CloseFile ()

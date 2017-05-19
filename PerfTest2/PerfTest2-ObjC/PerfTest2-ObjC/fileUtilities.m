@@ -3,6 +3,7 @@
 //  PerfTest2-ObjC
 //
 //  Created by kevin Ford on 1/8/15.
+//  Modified by Tamás Szádvári on 19/5/17
 //  Copyright (c) 2015 kevin Ford. All rights reserved.
 //
 
@@ -76,10 +77,12 @@
         [self openFile:error];
     }
     
-    if (*error == nil) {
-        [fileHandle seekToEndOfFile];
-        [fileHandle writeData:textToWrite];
+    if (*error != nil) {
+        return;
     }
+    
+    [fileHandle seekToEndOfFile];
+    [fileHandle writeData:textToWrite];
 }
 
 - (NSArray*)readFileContents:(NSError**)error {
@@ -89,14 +92,14 @@
         [self openFile:error];
     }
     
-    if (*error == nil) {
-        [fileHandle seekToFileOffset: 0];
-        NSData* fileContents = [fileHandle readDataToEndOfFile];
-        NSString *fileString = [[NSString alloc] initWithData:fileContents encoding:NSUTF8StringEncoding];
-        return [fileString componentsSeparatedByString:@"\r\n"];
-        
-    } else {
+    if (*error != nil) {
         return nil;
     }
+    
+    [fileHandle seekToFileOffset: 0];
+    NSData* fileContents = [fileHandle readDataToEndOfFile];
+    NSString *fileString = [[NSString alloc] initWithData:fileContents encoding:NSUTF8StringEncoding];
+    
+    return [fileString componentsSeparatedByString:@"\r\n"];
 }
 @end

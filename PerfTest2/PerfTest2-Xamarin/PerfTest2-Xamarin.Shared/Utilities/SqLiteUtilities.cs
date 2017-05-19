@@ -59,6 +59,7 @@ namespace PerfTest2Xamarin.Utilities
 		public IList<string> GetAllRecords ()
 		{
 			return Database.Table<TestTable> ()
+						   .ToList ()
 						   .Select (record => string.Format ("{0} {1}", record.FirstName, record.LastName))
 						   .ToList ();
 		}
@@ -67,6 +68,7 @@ namespace PerfTest2Xamarin.Utilities
 		{
 			return Database.Table<TestTable> ()
 						   .Where (record => record.LastName.Contains ("1"))
+						   .ToList ()
 						   .Select (record => string.Format ("{0} {1}", record.FirstName, record.LastName))
 						   .ToList ();
 		}
