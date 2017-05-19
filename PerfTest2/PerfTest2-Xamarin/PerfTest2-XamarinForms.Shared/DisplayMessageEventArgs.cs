@@ -7,29 +7,23 @@ using Foundation;
 
 namespace PerfTest2Xamarin
 {
-    [Serializable]
-    [Preserve(AllMembers = true)]
-    public delegate void DisplayMessageEventHandler(object sender, DisplayMessageEventArgs e);
+	[Serializable]
+	[Preserve (AllMembers = true)]
+	public delegate void DisplayMessageEventHandler (object sender, DisplayMessageEventArgs e);
 
-    public class DisplayMessageEventArgs : EventArgs
-    {
-        private string title = string.Empty;
-        private string message = string.Empty;
+	public class DisplayMessageEventArgs : EventArgs
+	{
+		private readonly string title = string.Empty;
+		private readonly string message = string.Empty;
 
-        public DisplayMessageEventArgs(string title, string message)
-        {
-            this.title = title;
-            this.message = message;
-        }
+		public DisplayMessageEventArgs (string title, string message)
+		{
+			this.title = title;
+			this.message = message;
+		}
 
-        public string Title
-        {
-            get { return title; }
-        }
+		public string Title => title;
 
-        public string Message
-        {
-            get { return message; }
-        }
-    }
+		public string Message => message;
+	}
 }

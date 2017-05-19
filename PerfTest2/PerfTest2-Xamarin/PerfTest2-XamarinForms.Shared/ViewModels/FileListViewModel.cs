@@ -19,7 +19,9 @@ namespace PerfTest2Xamarin.ViewModels
 
 		public FileListViewModel ()
 		{
-			var directory = DependencyService.Get<IDirectoryLocation> ().Directory;
+			var directory = DependencyService.Get<IDirectoryLocation> ()?.Directory;
+			if (directory == null)
+				return;
 
 			using (var utilities = new FileUtilities (directory))
 			{

@@ -72,9 +72,11 @@ namespace PerfTest2Xamarin.ViewModels
 
 		private void CleanUp ()
 		{
-			var directory = DependencyService.Get<IDirectoryLocation> ().Directory;
-			var sqlUtilities = new SqLiteUtilities (directory);
+			var directory = DependencyService.Get<IDirectoryLocation> ()?.Directory;
+			if (directory == null)
+				return;
 
+			var sqlUtilities = new SqLiteUtilities (directory);
 			try
 			{
 				sqlUtilities.DeleteFile ();
@@ -138,7 +140,10 @@ namespace PerfTest2Xamarin.ViewModels
 
 		private void SaveLargeFile ()
 		{
-			var directory = DependencyService.Get<IDirectoryLocation> ().Directory;
+			var directory = DependencyService.Get<IDirectoryLocation> ()?.Directory;
+			if (directory == null)
+				return;
+
 			try
 			{
 				using (var utilities = new FileUtilities (directory))

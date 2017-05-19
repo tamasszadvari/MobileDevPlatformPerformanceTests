@@ -21,7 +21,10 @@ namespace PerfTest2Xamarin.ViewModels
 
 		public void SetDisplayType (SqLiteDisplayType displayType)
 		{
-			var directory = DependencyService.Get<IDirectoryLocation> ().Directory;
+			var directory = DependencyService.Get<IDirectoryLocation> ()?.Directory;
+			if (directory == null)
+				return;
+
 			var utilities = new SqLiteUtilities (directory);
 			switch (displayType)
 			{

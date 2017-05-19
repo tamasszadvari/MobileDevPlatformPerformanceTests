@@ -14,8 +14,7 @@ namespace PerfTest2Xamarin
 		public App ()
 		{
 			var mainPage = new MainPage ();
-			var navigation = new NavigationPage (mainPage);
-			this.MainPage = navigation;
+			MainPage = new NavigationPage (mainPage);
 		}
 	}
 }

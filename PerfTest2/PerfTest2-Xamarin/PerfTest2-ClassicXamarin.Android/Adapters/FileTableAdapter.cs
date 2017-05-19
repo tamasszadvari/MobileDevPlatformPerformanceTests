@@ -32,7 +32,10 @@ namespace PerfTest2Xamarin.Adapters
 			{
 				records = utilities.ReadFileContents ();
 			}
-			catch { }
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine (ex.Message);
+			}
 		}
 
 		public override string this[int position] => records[position];
