@@ -10,67 +10,69 @@ using Foundation;
 
 namespace PerfTest2Xamarin.Forms
 {
-    [Preserve(AllMembers = true)]
+	[Preserve (AllMembers = true)]
 	public partial class MainPage : ContentPage
 	{
-		public MainPage()
+		public MainPage ()
 		{
-			InitializeComponent();
-            if (Device.OS == TargetPlatform.Android)
-            {
-                NavigationPage.SetHasNavigationBar(this, false);
-            }
-        }
+			InitializeComponent ();
 
-	    protected override void OnAppearing()
-	    {
-	        base.OnAppearing();
-            var viewModel = this.BindingContext as MainMenuViewModel;
-            if (viewModel != null)
-            {
-                viewModel.DisplayMessage += ViewModelOnDisplayMessage;
-                viewModel.NavigatePage += ViewModelOnNavigatePage;
-            }
-        }
+			if (Device.RuntimePlatform == Device.Android)
+			{
+				NavigationPage.SetHasNavigationBar (this, false);
+			}
+		}
 
-	    protected override void OnDisappearing()
-	    {
-	        base.OnDisappearing();
-            var viewModel = this.BindingContext as MainMenuViewModel;
-            if (viewModel != null)
-            {
-                viewModel.DisplayMessage -= ViewModelOnDisplayMessage;
-                viewModel.NavigatePage -= ViewModelOnNavigatePage;
-            }
-        }
+		protected override void OnAppearing ()
+		{
+			base.OnAppearing ();
 
-	    private void ViewModelOnDisplayMessage(object sender, DisplayMessageEventArgs eventArgs)
-        {
-            this.DisplayAlert(eventArgs.Title, eventArgs.Message, "OK", "Cancel");
-        }
+			var viewModel = BindingContext as MainMenuViewModel;
+			if (viewModel != null)
+			{
+				viewModel.DisplayMessage += ViewModelOnDisplayMessage;
+				viewModel.NavigatePage += ViewModelOnNavigatePage;
+			}
+		}
 
-        private void ViewModelOnNavigatePage(object sender, NavigatePageEventArgs e)
-        {
-            Page targetPage;
-            switch (e.Target)
-            {
-                case NavigationTarget.SqLiteDisplayAll:
-                    targetPage = new SqLiteList();
-                    ((SqLiteList)targetPage).SetSqLiteDisplayType(SqLiteDisplayType.ShowAll);
-                    Navigation.PushAsync(targetPage, true);
-                    break;
-                case NavigationTarget.SqLiteDisplayWhere:
-                    targetPage = new SqLiteList();
-                    ((SqLiteList)targetPage).SetSqLiteDisplayType(SqLiteDisplayType.ShowContaining1);
-                    Navigation.PushAsync(targetPage, true);
-                    break;
-                case NavigationTarget.FileList:
-                    targetPage = new FileList();
-                    Navigation.PushAsync(targetPage, true);
-                    break;
-                default:
-                    throw new NotImplementedException("Not a valid navigation target.");
-            }
-        }
-    }
+		protected override void OnDisappearing ()
+		{
+			base.OnDisappearing ();
+
+			var viewModel = BindingContext as MainMenuViewModel;
+			if (viewModel != null)
+			{
+				viewModel.DisplayMessage -= ViewModelOnDisplayMessage;
+				viewModel.NavigatePage -= ViewModelOnNavigatePage;
+			}
+		}
+
+		private void ViewModelOnDisplayMessage (object sender, DisplayMessageEventArgs eventArgs)
+		{
+			DisplayAlert (eventArgs.Title, eventArgs.Message, "OK", "Cancel");
+		}
+
+		private void ViewModelOnNavigatePage (object sender, NavigatePageEventArgs e)
+		{
+			Page targetPage;
+			switch (e.Target)
+			{
+			case NavigationTarget.SqLiteDisplayAll:
+				targetPage = new SqLiteList ();
+				((SqLiteList)targetPage).SetSqLiteDisplayType (SqLiteDisplayType.ShowAll);
+				break;
+			case NavigationTarget.SqLiteDisplayWhere:
+				targetPage = new SqLiteList ();
+				((SqLiteList)targetPage).SetSqLiteDisplayType (SqLiteDisplayType.ShowContaining1);
+				break;
+			case NavigationTarget.FileList:
+				targetPage = new FileList ();
+				break;
+			default:
+				throw new NotImplementedException ("Not a valid navigation target.");
+			}
+
+			Navigation.PushAsync (targetPage, true);
+		}
+	}
 }

@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SQLite;
+﻿using SQLite;
 
 namespace PerfTest2Xamarin.Utilities
 {
-    [Table("TestTable")] 
-    public class TestTable
-    {
-        [PrimaryKey, AutoIncrement]
-        public int id { get; set; }
-        public string firstName { get; set; }
-        public string lastName { get; set; }
-        public string misc { get; set; }
-    }
+	[Table ("TestTable")]
+	public class TestTable
+	{
+		[PrimaryKey, AutoIncrement]
+		public int Id { get; set; }
+		public string FirstName { get; set; }
+		public string LastName { get; set; }
+		public string Misc { get; set; }
+	}
 }

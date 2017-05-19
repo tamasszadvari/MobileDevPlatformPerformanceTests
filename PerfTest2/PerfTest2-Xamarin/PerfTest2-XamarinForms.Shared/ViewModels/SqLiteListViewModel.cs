@@ -13,46 +13,47 @@ using Foundation;
 
 namespace PerfTest2Xamarin.ViewModels
 {
-    [Preserve(AllMembers = true)]
-    public class SqLiteListViewModel : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler PropertyChanged;
-        private IList<string> listItems = new List<string>();
+	[Preserve (AllMembers = true)]
+	public class SqLiteListViewModel : INotifyPropertyChanged
+	{
+		public event PropertyChangedEventHandler PropertyChanged;
+		private IList<string> listItems = new List<string> ();
 
-        public void SetDisplayType(SqLiteDisplayType displayType)
-        {
-            var directory = DependencyService.Get<IDirectoryLocation>().Directory;
-            var utilities = new SqLiteUtilities(directory);
-            utilities.OpenConnection();
-            switch (displayType)
-            {
-                case SqLiteDisplayType.ShowAll:
-                    ListItems = utilities.GetAllRecords();
-                    break;
-                case SqLiteDisplayType.ShowContaining1:
-                    ListItems = utilities.GetRecordsWith1();
-                    break;
-                default:
-                    throw new NotImplementedException("Invalid SqLiteDisplayType");
-            }
-            utilities.CloseConnection();
-        }
+		public void SetDisplayType (SqLiteDisplayType displayType)
+		{
+			var directory = DependencyService.Get<IDirectoryLocation> ()?.Directory;
+			if (directory == null)
+				return;
 
-        public IList<string> ListItems
-        {
-            get { return listItems; }
-            private set
-            {
-                listItems = value;
-                OnPropertyChanged("ListItems");
-            }
-        }
+			var utilities = new SqLiteUtilities (directory);
+			switch (displayType)
+			{
+			case SqLiteDisplayType.ShowAll:
+				ListItems = utilities.GetAllRecords ();
+				break;
+			case SqLiteDisplayType.ShowContaining1:
+				ListItems = utilities.GetRecordsWith1 ();
+				break;
+			default:
+				throw new NotImplementedException ("Invalid SqLiteDisplayType");
+			}
 
-        protected void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this,
-                    new PropertyChangedEventArgs(propertyName));
-        }
-    }
+			utilities.CloseConnection ();
+		}
+
+		public IList<string> ListItems
+		{
+			get { return listItems; }
+			private set
+			{
+				listItems = value;
+				OnPropertyChanged ("ListItems");
+			}
+		}
+
+		protected void OnPropertyChanged (string propertyName)
+		{
+			PropertyChanged?.Invoke (this, new PropertyChangedEventArgs (propertyName));
+		}
+	}
 }

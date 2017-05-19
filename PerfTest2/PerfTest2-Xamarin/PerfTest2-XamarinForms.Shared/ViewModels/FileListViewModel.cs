@@ -11,37 +11,37 @@ using Foundation;
 
 namespace PerfTest2Xamarin.ViewModels
 {
-    [Preserve(AllMembers = true)]
-    public class FileListViewModel : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler PropertyChanged;
-        private IList<string> listItems = new List<string>();
+	[Preserve (AllMembers = true)]
+	public class FileListViewModel : INotifyPropertyChanged
+	{
+		public event PropertyChangedEventHandler PropertyChanged;
+		private IList<string> listItems = new List<string> ();
 
-        public FileListViewModel()
-        {
-            var directory = DependencyService.Get<IDirectoryLocation>().Directory;
+		public FileListViewModel ()
+		{
+			var directory = DependencyService.Get<IDirectoryLocation> ()?.Directory;
+			if (directory == null)
+				return;
 
-            using (var utilities = new FileUtilities(directory))
-            {
-                ListItems = utilities.ReadFileContents();
-            }
-        }
+			using (var utilities = new FileUtilities (directory))
+			{
+				ListItems = utilities.ReadFileContents ();
+			}
+		}
 
-        public IList<string> ListItems
-        {
-            get { return listItems; }
-            private set
-            {
-                listItems = value;
-                OnPropertyChanged("ListItems");
-            }
-        }
+		public IList<string> ListItems
+		{
+			get { return listItems; }
+			private set
+			{
+				listItems = value;
+				OnPropertyChanged ("ListItems");
+			}
+		}
 
-        protected void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this,
-                    new PropertyChangedEventArgs(propertyName));
-        }
-    }
+		protected void OnPropertyChanged (string propertyName)
+		{
+			PropertyChanged?.Invoke (this, new PropertyChangedEventArgs (propertyName));
+		}
+	}
 }

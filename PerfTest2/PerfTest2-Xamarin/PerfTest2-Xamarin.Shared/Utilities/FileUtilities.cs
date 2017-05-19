@@ -1,90 +1,80 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace PerfTest2Xamarin.Utilities
 {
-    public class FileUtilities : IDisposable
-    {
-        private string filePath;
-        private StreamWriter streamWriter = null;
+	public class FileUtilities : IDisposable
+	{
+		private string filePath;
+		private StreamWriter streamWriter;
 
-        public FileUtilities(string filePath)
-        {
-            this.filePath = Path.Combine(filePath, "testFile.txt");
-        }
+		private StreamWriter Writer => streamWriter ?? (streamWriter = new StreamWriter (filePath));
 
-        public void OpenFile() 
-        {
-            streamWriter = new StreamWriter(filePath);
-        }
+		public FileUtilities (string filePath)
+		{
+			this.filePath = Path.Combine (filePath, "testFile.txt");
+		}
 
-        public void CloseFile()
-        {
-            if (streamWriter != null)
-            {
-                streamWriter.Close();
-                streamWriter.Dispose();
-                streamWriter = null;
-            }
-        }
+		public void CloseFile ()
+		{
+			if (streamWriter != null)
+			{
+				streamWriter.Close ();
+				streamWriter.Dispose ();
+				streamWriter = null;
+			}
+		}
 
-        public void DeleteFile()
-        {
-            if (File.Exists(filePath))
-            {
-                File.Delete(filePath);
-            }
-        }
+		public void DeleteFile ()
+		{
+			if (File.Exists (filePath))
+			{
+				File.Delete (filePath);
+			}
+		}
 
-        public void CreateFile() 
-        {
-            if (!File.Exists(filePath))
-            {
-                using (var stream = File.Create(filePath))
-                {
-                }
-            }
-        }
+		public void CreateFile ()
+		{
+			if (!File.Exists (filePath))
+			{
+				using (var stream = File.Create (filePath)) { }
+			}
+		}
 
-        public void WriteLineToFile(String line) 
-        {
-            if (!File.Exists(filePath)) 
-            {
-                this.CreateFile();
-            }
-            if (streamWriter == null) 
-            {
-                this.OpenFile();
-            }
+		public void WriteLineToFile (String line)
+		{
+			if (!File.Exists (filePath))
+				CreateFile ();
 
-            streamWriter.WriteLine(line);
-        }
+			Writer.WriteLine (line);
+		}
 
-        public IList<string> ReadFileContents()
-        {
-            if (!File.Exists(filePath))
-            {
-                this.CreateFile();
-            }
+		public IList<string> ReadFileContents ()
+		{
+			if (!File.Exists (filePath))
+				return new List<string> ();
 
-            var returnValue = new List<String>();
+			using (var streamReader = new StreamReader (filePath))
+			{
+				var returnValue = new List<String> ();
 
-            using (var streamReader = new StreamReader(filePath))
-            {
-                string line;
-                while ((line = streamReader.ReadLine()) != null)
-                {
-                    returnValue.Add(line);
-                }
-            }
-            return returnValue;
-        }
+				while (!streamReader.EndOfStream)
+				{
+					var line = streamReader.ReadLine ();
+					if (line != null)
+					{
+						returnValue.Add (line);
+					}
+				}
 
-        public void Dispose()
-        {
-            this.CloseFile();
-        }
-    }
+				return returnValue;
+			}
+		}
+
+		public void Dispose ()
+		{
+			CloseFile ();
+		}
+	}
 }

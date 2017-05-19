@@ -6,110 +6,71 @@ using System.Linq;
 
 namespace PerfTest2Xamarin.Utilities
 {
-    public class SqLiteUtilities
-    {
+	public class SqLiteUtilities
+	{
+		private const int DATABASE_VERSION = 1;
+		private const string DATABASE_NAME = "testDB.sql3";
+		private const string TABLE_NAME = "testTable";
 
-        private const int DATABASE_VERSION = 1;
-        private const string DATABASE_NAME = "testDB.sql3";
-        private const string TABLE_NAME = "testTable";
+		private string databasePath;
+		private SQLiteConnection database;
 
-        private string dbPath;
-        private SQLiteConnection dbConn = null;
+		private SQLiteConnection Database => database ?? (database = new SQLiteConnection (Path.Combine (databasePath, DATABASE_NAME)));
 
-        public SqLiteUtilities(string path)
-        {
-            dbPath = path;
-        }
+		public SqLiteUtilities (string path)
+		{
+			databasePath = path;
+		}
 
-        public void OpenConnection()
-        {
-            if (dbConn != null)
-            {
-                CloseConnection();
-            }
-            dbConn = new SQLiteConnection(Path.Combine(dbPath, DATABASE_NAME));
-        }
+		public void CloseConnection ()
+		{
+			if (database == null)
+			{
+				throw new InvalidOperationException ("Connection not open to close");
+			}
 
-        public void CloseConnection()
-        {
-            if (dbConn == null)
-            {
-                throw new InvalidOperationException("Connection not open to close");
-            }
-            else
-            {
-                dbConn.Close();
-                dbConn = null;
-            }
-        }
+			database.Close ();
+			database = null;
+		}
 
-        public void DeleteFile()
-        {
-            if (dbConn != null)
-            {
-                CloseConnection();
-            }
-            if (File.Exists(Path.Combine(dbPath, DATABASE_NAME)))
-            {
-                File.Delete(Path.Combine(dbPath, DATABASE_NAME));
-            }
-        }
+		public void DeleteFile ()
+		{
+			if (database != null)
+			{
+				CloseConnection ();
+			}
 
-        public void CreateTable()
-        {
-            if (dbConn == null)
-            {
-                OpenConnection();
-            }
-            dbConn.CreateTable<TestTable>();
-        }
+			if (File.Exists (Path.Combine (databasePath, DATABASE_NAME)))
+			{
+				File.Delete (Path.Combine (databasePath, DATABASE_NAME));
+			}
+		}
 
-        public void AddRecord(string fName, string lName, int i, string m)
-        {
-            if (dbConn == null)
-            {
-                OpenConnection();
-            }
+		public void CreateTable ()
+		{
+			Database.CreateTable<TestTable> ();
+		}
 
-            var testRecord = new TestTable {firstName = fName, id = 0, lastName = lName + i, misc = m};
+		public void AddRecord (string fName, string lName, int i, string m)
+		{
+			Database.Insert (new TestTable { FirstName = fName, Id = 0, LastName = lName + i, Misc = m });
+		}
 
-            dbConn.Insert(testRecord);
-        }
+		public IList<string> GetAllRecords ()
+		{
+			return Database.Table<TestTable> ()
+						   .ToList ()
+						   .Select (record => string.Format ("{0} {1}", record.FirstName, record.LastName))
+						   .ToList ();
+		}
 
-        public IList<string> GetAllRecords()
-        {
-            if (dbConn == null)
-            {
-                OpenConnection();
-            }
-
-            var results = (from t in dbConn.Table<TestTable>() select t ).ToList(); 
-
-            var returnList = new List<string>();
-
-            foreach (var result in results)
-            {
-                returnList.Add(string.Format("{0} {1}", result.firstName, result.lastName));    
-            }
-            return returnList;
-        }
-
-        public IList<string> GetRecordsWith1()
-        {
-            if (dbConn == null)
-            {
-                OpenConnection();
-            }
-
-            var results = (from t in dbConn.Table<TestTable>() where t.lastName.Contains("1") select t).ToList(); 
-
-            var returnList = new List<string>();
-
-            foreach (var result in results)
-            {
-                returnList.Add(string.Format("{0} {1}", result.firstName, result.lastName));
-            }
-            return returnList;
-        }
-    }
+		public IList<string> GetRecordsWith1 ()
+		{
+			return Database.Table<TestTable> ()
+						   .Where (record => record.LastName.Contains ("1"))
+						   .ToList ()
+						   .Select (record => string.Format ("{0} {1}", record.FirstName, record.LastName))
+						   .ToList ();
+		}
+	}
 }

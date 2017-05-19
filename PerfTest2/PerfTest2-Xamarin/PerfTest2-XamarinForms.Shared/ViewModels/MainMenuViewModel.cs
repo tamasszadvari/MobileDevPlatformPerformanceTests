@@ -13,202 +13,163 @@ using Foundation;
 
 namespace PerfTest2Xamarin.ViewModels
 {
-    [Preserve(AllMembers = true)]
-    public class MainMenuViewModel
-    {
-        public event DisplayMessageEventHandler DisplayMessage;
-        public event NavigatePageEventHandler NavigatePage;
+	[Preserve (AllMembers = true)]
+	public class MainMenuViewModel
+	{
+		public event DisplayMessageEventHandler DisplayMessage;
+		public event NavigatePageEventHandler NavigatePage;
 
-        private IList<MenuItem> menuItems = new List<MenuItem>();
+		private IList<MenuItem> menuItems = new List<MenuItem> ();
 
-        public const int CLEAN_UP_TEST = 0;
-        public const int ADD_SQL_RECORDS = 1;
-        public const int DISPLAY_ALL_RECORDS = 2;
-        public const int DISPLAY_RECORDS_WITH_WHERE = 3;
-        public const int SAVE_LARGE_FILE = 4;
-        public const int DISPLAY_LARGE_FILE = 5;
+		public const int CLEAN_UP_TEST = 0;
+		public const int ADD_SQL_RECORDS = 1;
+		public const int DISPLAY_ALL_RECORDS = 2;
+		public const int DISPLAY_RECORDS_WITH_WHERE = 3;
+		public const int SAVE_LARGE_FILE = 4;
+		public const int DISPLAY_LARGE_FILE = 5;
 
-        public MainMenuViewModel()
-        {
-            menuItems.Add(new MenuItem { Index = CLEAN_UP_TEST, Description = "Clean up and prepare for tests" });
-            menuItems.Add(new MenuItem { Index = ADD_SQL_RECORDS, Description = "Add 1,000 records to SQLite" });
-            menuItems.Add(new MenuItem { Index = DISPLAY_ALL_RECORDS, Description = "Display all records" });
-            menuItems.Add(new MenuItem { Index = DISPLAY_RECORDS_WITH_WHERE, Description = "Display all records that contain 1" });
-            menuItems.Add(new MenuItem { Index = SAVE_LARGE_FILE, Description = "Save large file" });
-            menuItems.Add(new MenuItem { Index = DISPLAY_LARGE_FILE, Description = "Load and display large file" });
-        }
-        
-        public IList<MenuItem> MenuItems
-        {
-            get { return menuItems; }
-        }
+		public MainMenuViewModel ()
+		{
+			menuItems.Add (new MenuItem { Index = CLEAN_UP_TEST, Description = "Clean up and prepare for tests" });
+			menuItems.Add (new MenuItem { Index = ADD_SQL_RECORDS, Description = "Add 1,000 records to SQLite" });
+			menuItems.Add (new MenuItem { Index = DISPLAY_ALL_RECORDS, Description = "Display all records" });
+			menuItems.Add (new MenuItem { Index = DISPLAY_RECORDS_WITH_WHERE, Description = "Display all records that contain 1" });
+			menuItems.Add (new MenuItem { Index = SAVE_LARGE_FILE, Description = "Save large file" });
+			menuItems.Add (new MenuItem { Index = DISPLAY_LARGE_FILE, Description = "Load and display large file" });
+		}
 
-        public ICommand SelectMenuItem
-        {
-            get
-            {
-                return new Command<int>((int id) =>
-                {
-                    if (id == CLEAN_UP_TEST)
-                    {
-                        CleanUp();
-                    }
-                    else if (id == ADD_SQL_RECORDS)
-                    {
-                        AddRecords();
-                    }
-                    else if (id == DISPLAY_ALL_RECORDS)
-                    {
-                        ShowAllRecords();
-                    }
-                    else if (id == DISPLAY_RECORDS_WITH_WHERE)
-                    {
-                        ShowRecordsWith();
-                    }
-                    else if (id == SAVE_LARGE_FILE)
-                    {
-                        SaveLargeFile();
-                    }
-                    else if (id == DISPLAY_LARGE_FILE)
-                    {
-                        LoadAndDisplayFile();
-                    }
-                });
-            }
-        }
+		public IList<MenuItem> MenuItems => menuItems;
 
-        private void CleanUp()
-        {
-            var directory = DependencyService.Get<IDirectoryLocation>().Directory;
-            var sqlUtilities = new SqLiteUtilities(directory);
+		public ICommand SelectMenuItem
+		{
+			get
+			{
+				return new Command<int> ((int id) => {
+					switch (id)
+					{
+					case CLEAN_UP_TEST:
+						CleanUp ();
+						break;
+					case ADD_SQL_RECORDS:
+						AddRecords ();
+						break;
+					case DISPLAY_ALL_RECORDS:
+						ShowAllRecords ();
+						break;
+					case DISPLAY_RECORDS_WITH_WHERE:
+						ShowRecordsWith ();
+						break;
+					case SAVE_LARGE_FILE:
+						SaveLargeFile ();
+						break;
+					case DISPLAY_LARGE_FILE:
+						LoadAndDisplayFile ();
+						break;
+					}
+				});
+			}
+		}
 
-            try
-            {
-                sqlUtilities.DeleteFile();
-                sqlUtilities.OpenConnection();
-                sqlUtilities.CreateTable();
-                sqlUtilities.CloseConnection();
+		private void CleanUp ()
+		{
+			var directory = DependencyService.Get<IDirectoryLocation> ()?.Directory;
+			if (directory == null)
+				return;
 
-                using (var fUtilities = new FileUtilities(directory))
-                {
-                    fUtilities.DeleteFile();
+			var sqlUtilities = new SqLiteUtilities (directory);
+			try
+			{
+				sqlUtilities.DeleteFile ();
+				sqlUtilities.CreateTable ();
+				sqlUtilities.CloseConnection ();
 
-                    fUtilities.CreateFile();
+				using (var fUtilities = new FileUtilities (directory))
+				{
+					fUtilities.DeleteFile ();
 
-                    fUtilities.CloseFile();
-                }
-            }
-            catch (Exception ex)
-            {
-                if (DisplayMessage != null)
-                    DisplayMessage(this, new DisplayMessageEventArgs(
-                        "Error",
-                        string.Format("An error has occurred: {0}", ex.Message)));
-                return;
-            }
+					fUtilities.CreateFile ();
 
-            if (DisplayMessage != null)
-                DisplayMessage(this, new DisplayMessageEventArgs(
-                    "Cleanup and Prepare for Tests Successful",
-                    "Completed test setup"));
-            return;
-        }
+					fUtilities.CloseFile ();
+				}
 
-        private void AddRecords()
-        {
-            var directory = DependencyService.Get<IDirectoryLocation>().Directory;
-            SqLiteUtilities utilities;
-            int maxValue = 999;
+				DisplayMessage?.Invoke (this, new DisplayMessageEventArgs (
+					"Cleanup and Prepare for Tests Successful",
+					"Completed test setup"));
+			}
+			catch (Exception ex)
+			{
+				DisplayMessage?.Invoke (this, new DisplayMessageEventArgs (
+					"Error",
+					string.Format ("An error has occurred: {0}", ex.Message)));
+			}
+		}
 
-            utilities = new SqLiteUtilities(directory);
+		private void AddRecords ()
+		{
+			var directory = DependencyService.Get<IDirectoryLocation> ().Directory;
+			var utilities = new SqLiteUtilities (directory);
+			try
+			{
+				for (int i = 0; i <= 999; i++)
+				{
+					utilities.AddRecord ("test", "person", i, "12345678901234567890123456789012345678901234567890");
+				}
+				utilities.CloseConnection ();
 
-            try
-            {
-                utilities.OpenConnection();
+				DisplayMessage?.Invoke (this, new DisplayMessageEventArgs (
+					"Success",
+					"All records written to database"));
+			}
+			catch (Exception ex)
+			{
+				DisplayMessage?.Invoke (this, new DisplayMessageEventArgs (
+					"Error",
+					string.Format ("An error has occurred adding records: {0}", ex.Message)));
+			}
+		}
 
-                for (int i = 0; i <= maxValue; i++)
-                {
-                    utilities.AddRecord("test", "person", i, "12345678901234567890123456789012345678901234567890");
-                }
-                utilities.CloseConnection();
-            }
-            catch (Exception ex)
-            {
-                if (DisplayMessage != null)
-                {
-                    DisplayMessage(this, new DisplayMessageEventArgs(
-                        "Error",
-                        string.Format("An error has occurred adding records: {0}", ex.Message)));                    
-                }
-                return;
-            }
+		private void ShowAllRecords ()
+		{
+			NavigatePage?.Invoke (this, new NavigatePageEventArgs (NavigationTarget.SqLiteDisplayAll));
+		}
 
-            if (DisplayMessage != null)
-            {
-                DisplayMessage(this, new DisplayMessageEventArgs(
-                    "Success",
-                    "All records written to database"));                
-            }
-            return;
-        }
+		private void ShowRecordsWith ()
+		{
+			NavigatePage?.Invoke (this, new NavigatePageEventArgs (NavigationTarget.SqLiteDisplayWhere));
+		}
 
-        private void ShowAllRecords()
-        {
-            if (NavigatePage != null)
-            {
-                NavigatePage(this, new NavigatePageEventArgs(NavigationTarget.SqLiteDisplayAll));
-            }
-        }
+		private void SaveLargeFile ()
+		{
+			var directory = DependencyService.Get<IDirectoryLocation> ()?.Directory;
+			if (directory == null)
+				return;
 
-        private void ShowRecordsWith()
-        {
-            NavigatePage(this, new NavigatePageEventArgs(NavigationTarget.SqLiteDisplayWhere));
-        }
+			try
+			{
+				using (var utilities = new FileUtilities (directory))
+				{
+					for (int i = 0; i <= 999; i++)
+					{
+						utilities.WriteLineToFile ("Writing line to file at index: " + i);
+					}
+					utilities.CloseFile ();
 
-        private void SaveLargeFile()
-        {
-            int maxValue = 999;
-            var directory = DependencyService.Get<IDirectoryLocation>().Directory;
+					DisplayMessage?.Invoke (this, new DisplayMessageEventArgs (
+						"Success",
+						"All lines written to file"));
+				}
+			}
+			catch (Exception ex)
+			{
+				DisplayMessage?.Invoke (this, new DisplayMessageEventArgs (
+					"Error",
+					string.Format ("An error has occurred adding lines to file: {0}", ex.Message)));
+			}
+		}
 
-            try
-            {
-                using (var utilities = new FileUtilities(directory))
-                {
-                    utilities.OpenFile();
-
-                    for (int i = 0; i <= maxValue; i++)
-                    {
-                        utilities.WriteLineToFile("Writing line to file at index: " + i);
-                    }
-                    utilities.CloseFile();
-                }
-            }
-            catch (Exception ex)
-            {
-                if (DisplayMessage != null)
-                {
-                    DisplayMessage(this, new DisplayMessageEventArgs(
-                        "Error",
-                        string.Format("An error has occurred adding lines to file: {0}", ex.Message)));
-                }
-                return;
-            }
-
-            if (DisplayMessage != null)
-            {
-                DisplayMessage(this, new DisplayMessageEventArgs(
-                    "Success",
-                    "All lines written to file"));
-            }
-            return;
-        }
-
-        private void LoadAndDisplayFile()
-        {
-            if (NavigatePage != null)
-            {
-                NavigatePage(this, new NavigatePageEventArgs(NavigationTarget.FileList));
-            }           
-        }
-    }
+		private void LoadAndDisplayFile ()
+		{
+			NavigatePage?.Invoke (this, new NavigatePageEventArgs (NavigationTarget.FileList));
+		}
+	}
 }

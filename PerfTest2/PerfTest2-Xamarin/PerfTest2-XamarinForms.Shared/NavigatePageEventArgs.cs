@@ -10,22 +10,19 @@ using PerfTest2Xamarin.Enums;
 
 namespace PerfTest2Xamarin
 {
-    [Serializable]
-    [Preserve(AllMembers = true)]
-    public delegate void NavigatePageEventHandler(object sender, NavigatePageEventArgs e);
+	[Serializable]
+	[Preserve (AllMembers = true)]
+	public delegate void NavigatePageEventHandler (object sender, NavigatePageEventArgs e);
 
-    public class NavigatePageEventArgs : EventArgs
-    {
-        private NavigationTarget target;
+	public class NavigatePageEventArgs : EventArgs
+	{
+		private readonly NavigationTarget target;
 
-        public NavigatePageEventArgs(NavigationTarget target)
-        {
-            this.target = target;
-        }
+		public NavigatePageEventArgs (NavigationTarget target)
+		{
+			this.target = target;
+		}
 
-        public NavigationTarget Target
-        {
-            get { return target; }
-        }
-    }
+		public NavigationTarget Target => target;
+	}
 }

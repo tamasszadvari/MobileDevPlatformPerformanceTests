@@ -9,29 +9,26 @@ using Foundation;
 
 namespace PerfTest2Xamarin.Forms
 {
-    [Preserve(AllMembers = true)]
+	[Preserve (AllMembers = true)]
 	public partial class SqLiteList : ContentPage
 	{
-		public SqLiteList()
+		public SqLiteList ()
 		{
-			InitializeComponent();
-            if (Device.OS == TargetPlatform.Android)
-            {
-                NavigationPage.SetHasNavigationBar(this, false);
-            }
+			InitializeComponent ();
+
+			if (Device.RuntimePlatform == Device.Android)
+			{
+				NavigationPage.SetHasNavigationBar (this, false);
+			}
 		}
 
-        public void SetSqLiteDisplayType(SqLiteDisplayType displayType)
-	    {
-	        var viewModel = this.BindingContext as SqLiteListViewModel;
-            if (Device.OS == TargetPlatform.Android)
-            {
-                NavigationPage.SetHasNavigationBar(this, false);
-            }
-            if (viewModel != null)
-	        {
-	            viewModel.SetDisplayType(displayType);
-	        }
-	    }
+		public void SetSqLiteDisplayType (SqLiteDisplayType displayType)
+		{
+			var viewModel = BindingContext as SqLiteListViewModel;
+			if (viewModel != null)
+			{
+				viewModel.SetDisplayType (displayType);
+			}
+		}
 	}
 }

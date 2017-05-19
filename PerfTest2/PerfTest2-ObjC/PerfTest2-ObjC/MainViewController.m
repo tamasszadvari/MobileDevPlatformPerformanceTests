@@ -3,6 +3,7 @@
 //  PerfTest2-ObjC
 //
 //  Created by kevin Ford on 12/29/14.
+//  Modified by Tamás Szádvári on 19/5/17
 //  Copyright (c) 2014 kevin Ford. All rights reserved.
 //
 
@@ -17,7 +18,6 @@
 @end
 
 @implementation MainViewController
-
 
 const int menuCleanUp = 0;
 const int menuAddRecords = 1;
@@ -61,15 +61,12 @@ const int menuLoadAndDisplayFile = 5;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *simpleTableIdentifier = @"MyReuseIdentifier";
     
-    UITableViewCell *cell =  NULL;
-    
-    cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-    
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
-    }
+    UITableViewCell *cell =
+        [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier] ?:
+        [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
 
     cell.textLabel.text = menuItems[indexPath.item];
+    
     return cell;
 }
 
@@ -146,81 +143,45 @@ const int menuLoadAndDisplayFile = 5;
         }
     }
     
+    UIAlertController *alert = !hasError
+        ? [UIAlertController alertControllerWithTitle:@"Cleanup and Prepare for Tests Successful" message:@"Completed Test Setup" preferredStyle: UIAlertControllerStyleAlert]
+        : [UIAlertController alertControllerWithTitle:@"Cleanup and Prepare for Tests Error" message:[NSString stringWithFormat:@"%@%@", @"Error: ", errMsg] preferredStyle: UIAlertControllerStyleAlert];
     
-    if (!hasError) {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Cleanup and Prepare for Tests Successful" message:@"Completed Test Setup" preferredStyle: UIAlertControllerStyleAlert];
-        
-        UIAlertAction *alertAction = [UIAlertAction actionWithTitle: @"OK"
-                                                              style: UIAlertActionStyleDestructive
-                                                            handler: NULL];
-        
-        [alert addAction: alertAction];
-        [self presentViewController: alert animated: YES completion: nil];
-    } else {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Cleanup and Prepare for Tests Error" message:[NSString stringWithFormat:@"%@%@", @"Error: ", errMsg] preferredStyle: UIAlertControllerStyleAlert];
-        
-        UIAlertAction *alertAction = [UIAlertAction actionWithTitle: @"OK"
-                                                              style: UIAlertActionStyleDestructive
-                                                            handler: NULL];
-        
-        [alert addAction: alertAction];
-        [self presentViewController: alert animated: YES completion: nil];
-    }
+    UIAlertAction *alertAction = [UIAlertAction actionWithTitle: @"OK"
+                                                          style: UIAlertActionStyleDestructive
+                                                        handler: NULL];
+    
+    [alert addAction: alertAction];
+    [self presentViewController: alert animated: YES completion: nil];
 }
 
 - (void)addRecords {
-    sqliteUtilities* utilities;
+    sqliteUtilities* utilities = [[sqliteUtilities alloc]init];
     NSError* error;
-
-    utilities = [[sqliteUtilities alloc]init];
+    NSString* errorMessage;
+    UIAlertController *alert;
     
     [utilities openConnection:&error];
-    if (error) {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error" message:@"Error opening connection" preferredStyle: UIAlertControllerStyleAlert];
+    if (!error) {
+        for (int i = 0; i <= 999; i++) {
+            [utilities addRecord:@"test" withLastName:@"person" withIndex:i withMisc:@"12345678901234567890123456789012345678901234567890" withError:&error];
         
-        UIAlertAction *alertAction = [UIAlertAction actionWithTitle: @"OK"
-                                                              style: UIAlertActionStyleDestructive
-                                                            handler: NULL];
-        
-        [alert addAction: alertAction];
-        [self presentViewController: alert animated: YES completion: nil];
-
-        return;
-    }
-    
-    for (int i = 0; i <= 999; i++) {
-        [utilities addRecord:@"test" withLastName:@"person" withIndex:i withMisc:@"12345678901234567890123456789012345678901234567890" withError:&error];
-        
-        if (error) {
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error" message:error.description preferredStyle: UIAlertControllerStyleAlert];
-            
-            UIAlertAction *alertAction = [UIAlertAction actionWithTitle: @"OK"
-                                                                  style: UIAlertActionStyleDestructive
-                                                                handler: NULL];
-            
-            [alert addAction: alertAction];
-            [self presentViewController: alert animated: YES completion: nil];
-            
-            [utilities closeConnection:&error];
-            return;
+            if (error) {
+                errorMessage = @"Error writing line to database";
+                break;
+            }
         }
+    } else {
+        errorMessage = @"Error opening connection";
     }
     
     [utilities closeConnection:&error];
     if (error) {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error" message:@"Error closing connection" preferredStyle: UIAlertControllerStyleAlert];
-        
-        UIAlertAction *alertAction = [UIAlertAction actionWithTitle: @"OK"
-                                                              style: UIAlertActionStyleDestructive
-                                                            handler: NULL];
-        
-        [alert addAction: alertAction];
-        [self presentViewController: alert animated: YES completion: nil];
-        
-        return;
+        errorMessage = @"Error closing connection";
     }
-
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Success" message:@"All records written to database" preferredStyle: UIAlertControllerStyleAlert];
+    alert = error
+        ? [UIAlertController alertControllerWithTitle:@"Error" message: errorMessage preferredStyle: UIAlertControllerStyleAlert]
+        : [UIAlertController alertControllerWithTitle:@"Success" message:@"All records written to database" preferredStyle: UIAlertControllerStyleAlert];
     
     UIAlertAction *alertAction = [UIAlertAction actionWithTitle: @"OK"
                                                           style: UIAlertActionStyleDestructive
@@ -243,62 +204,35 @@ const int menuLoadAndDisplayFile = 5;
 }
 
 - (void)saveLargeFile {
-    fileUtilities* utilities;
+    fileUtilities* utilities = [[fileUtilities alloc]init];
     NSError* error;
-    
-    utilities = [[fileUtilities alloc]init];
+    NSString* errorMessage;
+    UIAlertController *alert;
     
     [utilities openFile:&error];
-    if (error) {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error" message:@"Error opening file" preferredStyle: UIAlertControllerStyleAlert];
+    if (!error) {
+        for (int i = 0; i <= 999; i++) {
+            NSString *myString = [NSString stringWithFormat:@"Writing line to file at index: %d\r\n", i];
+            const char *utfString = [myString UTF8String];
+            NSData *textLine = [NSData dataWithBytes: utfString length: strlen (utfString)];
+            [utilities writeLineToFile:&error withTextToWrite:textLine];
         
-        UIAlertAction *alertAction = [UIAlertAction actionWithTitle: @"OK"
-                                                              style: UIAlertActionStyleDestructive
-                                                            handler: NULL];
-        
-        [alert addAction: alertAction];
-        [self presentViewController: alert animated: YES completion: nil];
-        
-        return;
-    }
-    
-    for (int i = 0; i <= 999; i++) {
-        NSString *myString = [NSString stringWithFormat:@"Writing line to file at index: %d\r\n", i];
-        const char *utfString = [myString UTF8String];
-        NSData *textLine = [NSData dataWithBytes: utfString length: strlen
-                         (utfString)];
-        [utilities writeLineToFile:&error withTextToWrite:textLine];
-        
-        if (error) {
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error" message:error.description preferredStyle: UIAlertControllerStyleAlert];
-            
-            UIAlertAction *alertAction = [UIAlertAction actionWithTitle: @"OK"
-                                                                  style: UIAlertActionStyleDestructive
-                                                                handler: NULL];
-            
-            [alert addAction: alertAction];
-            [self presentViewController: alert animated: YES completion: nil];
-            
-            [utilities closeFile:&error];
-            return;
+            if (error) {
+                errorMessage = @"Error writing line to file";
+                break;
+            }
         }
+    } else {
+        errorMessage = @"Error opening connection";
     }
     
     [utilities closeFile:&error];
     if (error) {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error" message:@"Error closing file" preferredStyle: UIAlertControllerStyleAlert];
-        
-        UIAlertAction *alertAction = [UIAlertAction actionWithTitle: @"OK"
-                                                              style: UIAlertActionStyleDestructive
-                                                            handler: NULL];
-        
-        [alert addAction: alertAction];
-        [self presentViewController: alert animated: YES completion: nil];
-        
-        return;
+        errorMessage = @"Error closing connection";
     }
-    
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Success" message:@"All lines written to file" preferredStyle: UIAlertControllerStyleAlert];
+    alert = error
+        ? [UIAlertController alertControllerWithTitle:@"Error" message: errorMessage preferredStyle: UIAlertControllerStyleAlert]
+        : [UIAlertController alertControllerWithTitle:@"Success" message:@"All lines written to file" preferredStyle: UIAlertControllerStyleAlert];
     
     UIAlertAction *alertAction = [UIAlertAction actionWithTitle: @"OK"
                                                           style: UIAlertActionStyleDestructive

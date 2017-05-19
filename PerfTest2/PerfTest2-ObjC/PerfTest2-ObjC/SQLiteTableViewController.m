@@ -3,6 +3,7 @@
 //  PerfTest2-ObjC
 //
 //  Created by kevin Ford on 1/2/15.
+//  Modified by Tamás Szádvári on 19/5/17
 //  Copyright (c) 2015 kevin Ford. All rights reserved.
 //
 
@@ -32,64 +33,50 @@
 }
 
 -(NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
-    if (results == nil) {
-        return 0;
-    } else {
-        return [results count];
-    }
+    return results == nil ? 0 : [results count];
 }
 
 -(UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *simpleTableIdentifier = @"SQLiteReuseIdentifier";
     
-    UITableViewCell *cell =  NULL;
-    
-    cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-    
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
-    }
+    UITableViewCell *cell =
+        [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier] ?:
+        [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
     
     cell.textLabel.text = results[indexPath.item];
     return cell;
 }
 
 -(void)loadSqlResults {
-    sqliteUtilities* utilities;
+    sqliteUtilities* utilities = [[sqliteUtilities alloc]init];
+    NSString* errorMessage;
     NSError* error;
-    
-    utilities = [[sqliteUtilities alloc]init];
     
     [utilities openConnection:&error];
     if (error) {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error" message:@"EError opening connection" preferredStyle: UIAlertControllerStyleAlert];
-        
-        UIAlertAction *alertAction = [UIAlertAction actionWithTitle: @"OK"
-                                                              style: UIAlertActionStyleDestructive
-                                                            handler: NULL];
-        
-        [alert addAction: alertAction];
-        [self presentViewController: alert animated: YES completion: nil];
-        
-        return;
-    }
-
-    if (TableQueryType == (queryType)All) {
-        results = [utilities getAllRecords:&error];
+        errorMessage = @"Error opening connection";
     } else {
-        results = [utilities getRecordsWith1:&error];
+        results = (TableQueryType == (queryType)All)
+            ? [utilities getAllRecords:&error]
+            : [utilities getRecordsWith1:&error];
+        
+        if (error) {
+            errorMessage = [NSString stringWithFormat:@"%@%@", @"Error executing select statement: ",error.description];
+        }
     }
+    
+    [utilities closeConnection:&error];
     if (error) {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error" message:[NSString stringWithFormat:@"%@%@", @"Error executing select statement: ", error.description] preferredStyle: UIAlertControllerStyleAlert];
-        
+        errorMessage = @"Error closing connection";
+    }
+    
+    if (error) {
+        UIAlertController*  alert =[UIAlertController alertControllerWithTitle:@"Error" message:errorMessage preferredStyle: UIAlertControllerStyleAlert];
         UIAlertAction *alertAction = [UIAlertAction actionWithTitle: @"OK"
-                                                              style: UIAlertActionStyleDestructive
-                                                            handler: NULL];
-        
+                                                    style: UIAlertActionStyleDestructive
+                                                    handler: NULL];
         [alert addAction: alertAction];
         [self presentViewController: alert animated: YES completion: nil];
-        
-        return;
     }
 }
 

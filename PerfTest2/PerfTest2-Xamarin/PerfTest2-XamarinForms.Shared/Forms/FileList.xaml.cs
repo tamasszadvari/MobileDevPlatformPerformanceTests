@@ -7,16 +7,17 @@ using Foundation;
 
 namespace PerfTest2Xamarin.Forms
 {
-    [Preserve(AllMembers = true)]
+	[Preserve (AllMembers = true)]
 	public partial class FileList : ContentPage
 	{
-		public FileList()
+		public FileList ()
 		{
-			InitializeComponent();
-            if (Device.OS == TargetPlatform.Android)
-            {
-                NavigationPage.SetHasNavigationBar(this, false);
-            }
+			InitializeComponent ();
+
+			if (Device.RuntimePlatform == Device.Android)
+			{
+				NavigationPage.SetHasNavigationBar (this, false);
+			}
 		}
 	}
 }
