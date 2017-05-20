@@ -1,7 +1,7 @@
-﻿
-using System;
+﻿using System;
 using Android.App;
 using Android.OS;
+using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
 using PerfTest2Xamarin.Adapters;
@@ -11,24 +11,24 @@ using PerfTest2Xamarin.Utilities;
 
 namespace PerfTest2Xamarin
 {
-	[Activity (Label = "PerfTest2_ClassicXamarin.Android", MainLauncher = true, Icon = "@drawable/icon")]
-	public class MainActivity : Activity, AdapterView.IOnItemClickListener
+	[Activity (Label = "PerfTest2_ClassicXamarin.Android", MainLauncher = true, Icon = "@drawable/icon", Theme = "@style/AppTheme")]
+	public class MainActivity : AppCompatActivity, AdapterView.IOnItemClickListener
 	{
 		Fragment currentFragment;
 		private string directory;
 
-		protected override void OnCreate (Bundle bundle)
+		protected override void OnCreate (Bundle savedInstanceState)
 		{
-			base.OnCreate (bundle);
+			base.OnCreate (savedInstanceState);
 
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.activity_main);
 
 			currentFragment = new MainMenuFragment ();
-			FragmentTransaction trans = this.FragmentManager.BeginTransaction ();
-			trans.Add (Resource.Id.main_area, currentFragment);
-			trans.AddToBackStack (null);
-			trans.Commit ();
+			this.FragmentManager.BeginTransaction ()
+								.Add (Resource.Id.main_area, currentFragment)
+								.AddToBackStack (null)
+								.Commit ();
 		}
 
 		protected override void OnResume ()
@@ -68,7 +68,7 @@ namespace PerfTest2Xamarin
 		private void CleanUp ()
 		{
 			var sqlUtilities = new SqLiteUtilitiesAlt (this);
-			var alertDialog = new AlertDialog.Builder (this);
+			var alertDialog = new Android.Support.V7.App.AlertDialog.Builder (this);
 			try
 			{
 				sqlUtilities.CreateTable ();
@@ -100,7 +100,7 @@ namespace PerfTest2Xamarin
 		private void AddRecords ()
 		{
 			var utilities = new SqLiteUtilitiesAlt (this);
-			var alertDialog = new AlertDialog.Builder (this);
+			var alertDialog = new Android.Support.V7.App.AlertDialog.Builder (this);
 			try
 			{
 				for (int i = 0; i <= 999; i++)
@@ -132,10 +132,10 @@ namespace PerfTest2Xamarin
 			var fragment = new SqLiteTableFragment (directory) {
 				Arguments = bundle
 			};
-			var fragmentTransaction = FragmentManager.BeginTransaction ();
-			fragmentTransaction.Replace (Resource.Id.main_area, fragment);
-			fragmentTransaction.AddToBackStack (null);
-			fragmentTransaction.Commit ();
+			FragmentManager.BeginTransaction ()
+						   .Replace (Resource.Id.main_area, fragment)
+						   .AddToBackStack (null)
+						   .Commit ();
 		}
 
 		private void ShowRecordsWith ()
@@ -145,15 +145,15 @@ namespace PerfTest2Xamarin
 			var fragment = new SqLiteTableFragment (directory) {
 				Arguments = bundle
 			};
-			var fragmentTransaction = FragmentManager.BeginTransaction ();
-			fragmentTransaction.Replace (Resource.Id.main_area, fragment);
-			fragmentTransaction.AddToBackStack (null);
-			fragmentTransaction.Commit ();
+			FragmentManager.BeginTransaction ()
+						   .Replace (Resource.Id.main_area, fragment)
+						   .AddToBackStack (null)
+						   .Commit ();
 		}
 
 		private void SaveLargeFile ()
 		{
-			var alertDialog = new AlertDialog.Builder (this);
+			var alertDialog = new Android.Support.V7.App.AlertDialog.Builder (this);
 			try
 			{
 				using (var utilities = new FileUtilities (directory))
@@ -183,11 +183,11 @@ namespace PerfTest2Xamarin
 
 		private void LoadAndDisplayFile ()
 		{
-			var fragmentTransaction = FragmentManager.BeginTransaction ();
 			var fragment = new DisplayTextFileFragment (directory);
-			fragmentTransaction.Replace (Resource.Id.main_area, fragment);
-			fragmentTransaction.AddToBackStack (null);
-			fragmentTransaction.Commit ();
+			FragmentManager.BeginTransaction ()
+						   .Replace (Resource.Id.main_area, fragment)
+						   .AddToBackStack (null)
+						   .Commit ();
 		}
 	}
 }

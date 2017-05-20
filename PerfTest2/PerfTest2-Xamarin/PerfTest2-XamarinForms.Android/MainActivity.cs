@@ -1,21 +1,20 @@
-﻿using System;
-using Android.App;
+﻿using Android.App;
 using Android.OS;
 using Xamarin.Forms.Platform.Android;
 
 namespace PerfTest2Xamarin
 {
-    [Activity(Label = "PerfTest2_XamarinForms.Android", MainLauncher = true, Icon = "@drawable/icon")]
-    public class MainActivity : FormsApplicationActivity
-    {
-        protected override void OnCreate(Bundle bundle)
-        {
-            base.OnCreate(bundle);
+	[Activity (Label = "PerfTest2_XamarinForms.Android", MainLauncher = true, Icon = "@drawable/icon", Theme = "@style/AppTheme")]
+	public class MainActivity : FormsAppCompatActivity
+	{
+		protected override void OnCreate (Bundle savedInstanceState)
+		{
+			base.OnCreate (savedInstanceState);
 
-            Xamarin.Forms.Forms.Init(this, bundle);
+			Xamarin.Forms.Forms.Init (this, savedInstanceState);
 
-            LoadApplication(new App());
-        }
-    }
+			LoadApplication (new App ());
+		}
+	}
 }
 

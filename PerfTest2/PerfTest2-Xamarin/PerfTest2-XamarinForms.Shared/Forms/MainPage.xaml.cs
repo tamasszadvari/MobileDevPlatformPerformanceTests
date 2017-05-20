@@ -16,11 +16,6 @@ namespace PerfTest2Xamarin.Forms
 		public MainPage ()
 		{
 			InitializeComponent ();
-
-			if (Device.RuntimePlatform == Device.Android)
-			{
-				NavigationPage.SetHasNavigationBar (this, false);
-			}
 		}
 
 		protected override void OnAppearing ()

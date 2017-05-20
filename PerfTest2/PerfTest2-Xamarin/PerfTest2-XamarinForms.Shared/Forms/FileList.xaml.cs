@@ -13,11 +13,6 @@ namespace PerfTest2Xamarin.Forms
 		public FileList ()
 		{
 			InitializeComponent ();
-
-			if (Device.RuntimePlatform == Device.Android)
-			{
-				NavigationPage.SetHasNavigationBar (this, false);
-			}
 		}
 	}
 }

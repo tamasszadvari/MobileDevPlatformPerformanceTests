@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:PerfTest2Xamarin.ViewModels;assembly=PerfTest2Xamarin"             
@@ -9,7 +9,10 @@
             <viewModels:SqLiteListViewModel x:Key="Vm" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    <ListView x:Name="lstItems" ItemsSource="{Binding ListItems, Source={StaticResource Vm}}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+    <ListView x:Name="lstItems" 
+        ItemsSource="{Binding ListItems, Source={StaticResource Vm}}" 
+        HorizontalOptions="FillAndExpand" 
+        VerticalOptions="FillAndExpand">
         <ListView.ItemTemplate>
             <DataTemplate>
                 <TextCell Text="{Binding Path=.}"></TextCell>

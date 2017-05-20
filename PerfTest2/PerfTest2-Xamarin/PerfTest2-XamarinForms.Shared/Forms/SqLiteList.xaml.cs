@@ -15,11 +15,6 @@ namespace PerfTest2Xamarin.Forms
 		public SqLiteList ()
 		{
 			InitializeComponent ();
-
-			if (Device.RuntimePlatform == Device.Android)
-			{
-				NavigationPage.SetHasNavigationBar (this, false);
-			}
 		}
 
 		public void SetSqLiteDisplayType (SqLiteDisplayType displayType)

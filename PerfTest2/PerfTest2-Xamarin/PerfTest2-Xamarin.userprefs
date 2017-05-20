@@ -1,11 +1,15 @@
-﻿<Properties StartupConfiguration="{D18294B8-9FC4-4BDD-8EC5-6353A65B1F35}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="PerfTest2-ClassicXamarin.Ios/AppDelegate.cs">
+﻿<Properties StartupConfiguration="{4FD5D9F9-9568-44AF-93E8-142894F851D8}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="PerfTest2-XamarinForms.Android/MainActivity.cs">
     <Files>
-      <File FileName="PerfTest2-ClassicXamarin.Ios/AppDelegate.cs" Line="32" Column="1" />
+      <File FileName="PerfTest2-ClassicXamarin.Ios/AppDelegate.cs" Line="7" Column="2" />
+      <File FileName="PerfTest2-XamarinForms.Shared/App.cs" Line="21" Column="1" />
+      <File FileName="PerfTest2-XamarinForms.Android/MainActivity.cs" Line="12" Column="1" />
+      <File FileName="PerfTest2-ClassicXamarin.Android/Resources/values/styles.xml" Line="7" Column="36" />
+      <File FileName="PerfTest2-XamarinForms.Android/Resources/values/styles.xml" Line="8" Column="42" />
     </Files>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.ItemProperties.PerfTest2-XamarinForms.Ios PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget.7ac123e6d2b804362d89ce581aaded7ddaf6de95" />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" />
+  <MonoDevelop.Ide.ItemProperties.PerfTest2-XamarinForms.Ios PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -13,5 +17,5 @@
   <MonoDevelop.Ide.ItemProperties.PerfTest2-XamarinForms.Android PreferredExecutionTarget="Android.00f5b189d9d1a6cd" />
   <MonoDevelop.Ide.ItemProperties.PerfTest2-ClassicXamarin.Ios PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget.7ac123e6d2b804362d89ce581aaded7ddaf6de95" />
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.ItemProperties.PerfTest2-ClassicXamarin.Android AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.Nexus_10-7.0_x86" />
+  <MonoDevelop.Ide.ItemProperties.PerfTest2-ClassicXamarin.Android AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.00f5b189d9d1a6cd" AndroidDesignerPreferredTheme="AppTheme" />
 </Properties>
