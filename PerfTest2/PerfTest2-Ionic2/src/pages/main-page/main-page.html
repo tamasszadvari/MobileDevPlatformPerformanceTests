@@ -1,8 +1,5 @@
 <ion-header>
   <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
     <ion-title>PerfTest2-Ionic</ion-title>
   </ion-navbar>
 </ion-header>
@@ -10,10 +7,7 @@
 <ion-content>
   <ion-list>
     <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
-      {{item.title}}
-      <div class="item-note" item-right>
-        {{item.note}}
-      </div>
+      {{item}}
     </button>
   </ion-list>
 </ion-content>
