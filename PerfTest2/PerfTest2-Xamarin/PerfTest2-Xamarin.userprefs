@@ -1,29 +1,17 @@
-﻿<Properties StartupConfiguration="{61FD5F83-37A5-4B3C-BDC2-A84339344A27}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="PerfTest2-XamarinForms.Shared/ViewModels/FileListViewModel.cs">
+﻿<Properties StartupConfiguration="{D18294B8-9FC4-4BDD-8EC5-6353A65B1F35}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="PerfTest2-ClassicXamarin.Ios/AppDelegate.cs">
     <Files>
       <File FileName="PerfTest2-ClassicXamarin.Ios/AppDelegate.cs" Line="32" Column="1" />
-      <File FileName="PerfTest2-ClassicXamarin.Ios/ViewSoruce/FileViewSource.cs" Line="29" Column="4" />
-      <File FileName="PerfTest2-ClassicXamarin.Ios/ViewSoruce/MainMenuViewSource.cs" Line="27" Column="1" />
-      <File FileName="PerfTest2-ClassicXamarin.Ios/ViewSoruce/SqLiteViewSource.cs" Line="39" Column="1" />
-      <File FileName="PerfTest2-Xamarin.Shared/Utilities/SqLiteUtilities.cs" Line="18" Column="131" />
-      <File FileName="PerfTest2-ClassicXamarin.Ios/FileViewController.cs" Line="15" Column="4" />
-      <File FileName="PerfTest2-ClassicXamarin.Ios/SqLiteTableViewController.cs" Line="9" Column="42" />
-      <File FileName="PerfTest2-ClassicXamarin.Ios/MainViewController.cs" Line="92" Column="1" />
-      <File FileName="PerfTest2-Xamarin.Shared/Utilities/FileUtilities.cs" Line="21" Column="1" />
-      <File FileName="PerfTest2-XamarinForms.Shared/ViewModels/FileListViewModel.cs" Line="24" Column="12" />
     </Files>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.ItemProperties.PerfTest2-XamarinForms.Ios PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" />
+  <MonoDevelop.Ide.ItemProperties.PerfTest2-XamarinForms.Ios PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget.7ac123e6d2b804362d89ce581aaded7ddaf6de95" />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/tamasszadvari/Work/others/MobileDevPlatformPerformanceTests/PerfTest2/PerfTest2-Xamarin/PerfTest2-ClassicXamarin.Ios/FileViewController.cs" relfile="PerfTest2-ClassicXamarin.Ios/FileViewController.cs" line="19" column="1" />
-      <Breakpoint file="/Users/tamasszadvari/Work/others/MobileDevPlatformPerformanceTests/PerfTest2/PerfTest2-Xamarin/PerfTest2-ClassicXamarin.Ios/ViewSoruce/FileViewSource.cs" relfile="PerfTest2-ClassicXamarin.Ios/ViewSoruce/FileViewSource.cs" line="46" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.ItemProperties.PerfTest2-XamarinForms.Android PreferredExecutionTarget="Android.00f5b189d9d1a6cd" />
   <MonoDevelop.Ide.ItemProperties.PerfTest2-ClassicXamarin.Ios PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget.7ac123e6d2b804362d89ce581aaded7ddaf6de95" />
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.ItemProperties.PerfTest2-ClassicXamarin.Android PreferredExecutionTarget="Android.Nexus_10-7.0_x86" />
+  <MonoDevelop.Ide.ItemProperties.PerfTest2-ClassicXamarin.Android AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.Nexus_10-7.0_x86" />
 </Properties>

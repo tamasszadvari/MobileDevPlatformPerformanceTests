@@ -1,27 +1,27 @@
 package com.tamasszadvari.perftest2_java;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-public class MainActivity extends Activity implements AdapterView.OnItemClickListener, SqLiteTableFragment.OnFragmentInteractionListener, DisplayTextFileFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, SqLiteTableFragment.OnFragmentInteractionListener, DisplayTextFileFragment.OnFragmentInteractionListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         Fragment currentFragment = new MainMenuFragment();
-        FragmentTransaction trans = getFragmentManager().beginTransaction();
-        trans.add(R.id.main_area, currentFragment);
-        trans.addToBackStack(null);
-        trans.commit();
+        getFragmentManager().beginTransaction()
+                            .add(R.id.main_area,currentFragment)
+                            .addToBackStack(null)
+                            .commit();
     }
 
     @Override
@@ -74,8 +74,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         AlertDialog.Builder alert  = new AlertDialog.Builder(this);
 
         try {
-            utilities.openConnection();
-
             for (int i = 0; i <= 999; i++) {
                 utilities.addRecord("test", "person", i, "12345678901234567890123456789012345678901234567890");
             }
@@ -93,27 +91,29 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
     }
 
     private void showAllRecords() {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        SqLiteTableFragment fragment = new SqLiteTableFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("displayType", SqLiteDisplayType.ShowAll);
+
+        SqLiteTableFragment fragment = new SqLiteTableFragment();
         fragment.setArguments(bundle);
-        fragmentTransaction.replace(R.id.main_area, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+
+        getFragmentManager().beginTransaction()
+                            .replace(R.id.main_area,fragment)
+                            .addToBackStack(null)
+                            .commit();
     }
 
     private void showRecordsWith() {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        SqLiteTableFragment fragment = new SqLiteTableFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("displayType", SqLiteDisplayType.ShowContaining1);
+
+        SqLiteTableFragment fragment = new SqLiteTableFragment();
         fragment.setArguments(bundle);
-        fragmentTransaction.replace(R.id.main_area, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+
+        getFragmentManager().beginTransaction()
+                            .replace(R.id.main_area,fragment)
+                            .addToBackStack(null)
+                            .commit();
     }
 
     private  void saveLargeFile() {
@@ -140,12 +140,12 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
     }
 
     private void loadAndDisplayFile() {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         DisplayTextFileFragment fragment = new DisplayTextFileFragment();
-        fragmentTransaction.replace(R.id.main_area, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+
+        getFragmentManager().beginTransaction()
+                            .replace(R.id.main_area,fragment)
+                            .addToBackStack(null)
+                            .commit();
     }
 
     @Override

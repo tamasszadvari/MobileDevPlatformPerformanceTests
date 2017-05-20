@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0820458C1A56DBE800B3ED7C /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0820458B1A56DBE800B3ED7C /* libsqlite3.dylib */; };
 		0820458F1A57219900B3ED7C /* SQLiteTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0820458E1A57219900B3ED7C /* SQLiteTableViewController.m */; };
 		082045A01A5F266E00B3ED7C /* sqliteUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 0820459F1A5F266E00B3ED7C /* sqliteUtilities.m */; };
 		082045A41A5F842800B3ED7C /* fileUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 082045A31A5F842800B3ED7C /* fileUtilities.m */; };
@@ -18,6 +17,7 @@
 		085379D51A52341B00E85F24 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 085379D31A52341B00E85F24 /* Main.storyboard */; };
 		085379D71A52341B00E85F24 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 085379D61A52341B00E85F24 /* Images.xcassets */; };
 		085379DA1A52341B00E85F24 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 085379D81A52341B00E85F24 /* LaunchScreen.xib */; };
+		C9A0285A1ED030CD00FF2886 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A028591ED030CD00FF2886 /* libsqlite3.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,7 +31,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0820458B1A56DBE800B3ED7C /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		0820458D1A57216700B3ED7C /* SQLiteTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SQLiteTableViewController.h; path = ../SQLiteTableViewController.h; sourceTree = "<group>"; };
 		0820458E1A57219900B3ED7C /* SQLiteTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLiteTableViewController.m; sourceTree = "<group>"; };
 		082045991A5F237C00B3ED7C /* queryType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = queryType.h; sourceTree = "<group>"; };
@@ -52,6 +51,7 @@
 		085379D61A52341B00E85F24 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		085379D91A52341B00E85F24 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		085379DF1A52341B00E85F24 /* PerfTest2-ObjCTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PerfTest2-ObjCTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9A028591ED030CD00FF2886 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = ../../../../../../../usr/lib/libsqlite3.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,7 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0820458C1A56DBE800B3ED7C /* libsqlite3.dylib in Frameworks */,
+				C9A0285A1ED030CD00FF2886 /* libsqlite3.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,9 +108,9 @@
 		085379BD1A52341B00E85F24 = {
 			isa = PBXGroup;
 			children = (
-				0820458B1A56DBE800B3ED7C /* libsqlite3.dylib */,
 				085379C81A52341B00E85F24 /* PerfTest2-ObjC */,
 				085379C71A52341B00E85F24 /* Products */,
+				C9A028531ED02EED00FF2886 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -146,6 +146,14 @@
 				085379CB1A52341B00E85F24 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C9A028531ED02EED00FF2886 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C9A028591ED030CD00FF2886 /* libsqlite3.dylib */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

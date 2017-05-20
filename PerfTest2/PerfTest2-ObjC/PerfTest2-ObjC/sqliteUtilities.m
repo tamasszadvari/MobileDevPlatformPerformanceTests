@@ -2,12 +2,8 @@
 //  SQLiteUtilities.m
 //  PerfTest2-ObjC
 //
-//  Created by kevin Ford on 1/8/15.
-//  Modified by Tamás Szádvári on 19/5/17
-//  Copyright (c) 2015 kevin Ford. All rights reserved.
-//
 
-#import "SQLiteUtilities.h"
+#import "sqliteUtilities.h"
 
 @interface sqliteUtilities () {
     NSString* dbPath;

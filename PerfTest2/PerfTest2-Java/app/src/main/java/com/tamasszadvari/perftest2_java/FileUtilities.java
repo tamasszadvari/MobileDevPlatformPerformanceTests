@@ -10,10 +10,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 
-/**
- * Created by KevinF on 1/16/2015.
- * Modified by Tamás Szádvári on 19/5/2017
- */
 public class FileUtilities {
     private BufferedWriter fileHandle;
     private Context context;

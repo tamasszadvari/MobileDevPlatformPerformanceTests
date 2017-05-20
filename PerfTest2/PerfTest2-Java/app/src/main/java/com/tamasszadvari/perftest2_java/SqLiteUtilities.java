@@ -8,10 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 
-/**
- * Created by KevinF on 1/14/2015.
- * Modified by Tamás Szádvári on 19/5/2017
- */
 public class SqLiteUtilities extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;

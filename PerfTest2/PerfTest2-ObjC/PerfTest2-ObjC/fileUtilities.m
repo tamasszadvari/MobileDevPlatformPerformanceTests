@@ -2,10 +2,6 @@
 //  FileUtilities.m
 //  PerfTest2-ObjC
 //
-//  Created by kevin Ford on 1/8/15.
-//  Modified by Tamás Szádvári on 19/5/17
-//  Copyright (c) 2015 kevin Ford. All rights reserved.
-//
 
 #import "fileUtilities.h"
 
@@ -75,10 +71,10 @@
 
     if (fileHandle == nil) {
         [self openFile:error];
-    }
-    
-    if (*error != nil) {
-        return;
+        
+        if (*error != nil) {
+            return;
+        }
     }
     
     [fileHandle seekToEndOfFile];
@@ -90,10 +86,10 @@
 
     if (fileHandle == nil) {
         [self openFile:error];
-    }
-    
-    if (*error != nil) {
-        return nil;
+        
+        if (*error != nil) {
+            return nil;
+        }
     }
     
     [fileHandle seekToFileOffset: 0];

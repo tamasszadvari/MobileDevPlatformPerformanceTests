@@ -2,10 +2,6 @@
 //  ViewController.m
 //  PerfTest2-ObjC
 //
-//  Created by kevin Ford on 12/29/14.
-//  Modified by Tamás Szádvári on 19/5/17
-//  Copyright (c) 2014 kevin Ford. All rights reserved.
-//
 
 #import "MainViewController.h"
 
@@ -161,7 +157,6 @@ const int menuLoadAndDisplayFile = 5;
     NSString* errorMessage;
     UIAlertController *alert;
     
-    [utilities openConnection:&error];
     if (!error) {
         for (int i = 0; i <= 999; i++) {
             [utilities addRecord:@"test" withLastName:@"person" withIndex:i withMisc:@"12345678901234567890123456789012345678901234567890" withError:&error];

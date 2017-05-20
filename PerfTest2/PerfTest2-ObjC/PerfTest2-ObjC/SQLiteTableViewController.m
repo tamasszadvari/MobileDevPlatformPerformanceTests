@@ -2,10 +2,6 @@
 //  SQLiteTableViewController.m
 //  PerfTest2-ObjC
 //
-//  Created by kevin Ford on 1/2/15.
-//  Modified by Tamás Szádvári on 19/5/17
-//  Copyright (c) 2015 kevin Ford. All rights reserved.
-//
 
 #import "SQLiteTableViewController.h"
 
@@ -51,8 +47,7 @@
     sqliteUtilities* utilities = [[sqliteUtilities alloc]init];
     NSString* errorMessage;
     NSError* error;
-    
-    [utilities openConnection:&error];
+   
     if (error) {
         errorMessage = @"Error opening connection";
     } else {

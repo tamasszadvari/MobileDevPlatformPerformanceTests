@@ -1,4 +1,4 @@
-package com.vandammeford.kevinf.perftest2_java;
+package com.tamasszadvari.perftest2_java;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
