@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.tamasszadvari.performancetestapp" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>PerfTest2-Ionic</name>
-    <description>An Ionic/Cordova performance test app.</description>
+    <description>An Ionic performance test app.</description>
     <author email="tamas.szadvari@gmail.com" href="http://github.com/tamasszadvari">Tamás Szádvári</author>
     <content src="index.html" />
     <access origin="*" />
